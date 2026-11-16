@@ -21,11 +21,10 @@ jobs:
           gradle-version: 8.9
 
       - name: Build APK
-        working-directory: FastLauncher
         run: gradle assembleRelease --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: FastLauncher-APK
-          path: FastLauncher/app/build/outputs/apk/release/*.apk
+          path: app/build/outputs/apk/release/*.apk
