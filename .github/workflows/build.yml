@@ -21,10 +21,19 @@ jobs:
           gradle-version: 8.9
 
       - name: Build APK
-        run: gradle assembleRelease --no-daemon
+        run: |
+          F=$(find . -name settings.gradle.kts -not -path './.git/*' | head -n 1)
+          if [ -z "$F" ]; then
+            echo "settings.gradle.kts not found. Repo files:"
+            find . -not -path './.git/*' | head -60
+            exit 1
+          fi
+          cd "$(dirname "$F")"
+          echo "Building in $(pwd)"
+          gradle assembleRelease --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: FastLauncher-APK
-          path: app/build/outputs/apk/release/*.apk
+          path: "**/build/outputs/apk/release/*.apk"
