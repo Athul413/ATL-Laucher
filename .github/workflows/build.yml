@@ -1,4 +1,4 @@
-name: Build APK
+name: Build FastLauncher APK
 
 on:
 push:
@@ -20,11 +20,12 @@ steps:
     with:
       gradle-version: 8.9
 
-  - name: Build Release APK
+  - name: Build APK
     working-directory: FastLauncher
     run: gradle assembleRelease --no-daemon
 
-  - uses: actions/upload-artifact@v4
+  - name: Upload APK
+    uses: actions/upload-artifact@v4
     with:
-      name: FastLauncher-apk
+      name: FastLauncher-APK
       path: FastLauncher/app/build/outputs/apk/release/*.apk
