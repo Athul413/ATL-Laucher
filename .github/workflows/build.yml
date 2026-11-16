@@ -11,6 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Unzip project
+        run: unzip -q -o FastLauncher.zip
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -23,11 +26,6 @@ jobs:
       - name: Build APK
         run: |
           F=$(find . -name settings.gradle.kts -not -path './.git/*' | head -n 1)
-          if [ -z "$F" ]; then
-            echo "settings.gradle.kts not found. Repo files:"
-            find . -not -path './.git/*' | head -60
-            exit 1
-          fi
           cd "$(dirname "$F")"
           echo "Building in $(pwd)"
           gradle assembleRelease --no-daemon
